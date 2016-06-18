@@ -8,7 +8,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Display;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.abed.avg.R;
 import com.abed.avg.data.model.Photo;
@@ -38,26 +40,17 @@ public class MainActivity extends BaseActivity implements MainMvpView {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         mMainPresenter.attachView(this);
-
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        mMainPresenter.loadData(this, width);
-
+        mMainPresenter.loadData(this);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-//        mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-//            @Override
-//            public int getSpanSize(int position) {
-//                if ((position % itemsInTwoRows >= 0) && (position % itemsInTwoRows <= itemsCountInSmallRow - 1))
-//                    return row_size;
-//                return itemsCountInSmallRow;
-//            }
-//        });
-
         recyclerImgs.setLayoutManager(mLayoutManager);
         recyclerImgs.setAdapter(mainAdapter);
+        mainAdapter.setClicksListener(new MainAdapter.ViewHolderClicks() {
+            @Override
+            public void onImageClick(View view, int position) {
+                Toast.makeText(view.getContext(), position + "", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
@@ -68,7 +61,11 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     }
 
     @Override
-    public void showPhotos(List<Photo>[] photos_rows) {
-        mainAdapter.updateList(photos_rows);
+    public void showPhotos(List<Photo> photos) {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        mainAdapter.updateList(photos, width, width / 2);
     }
 }
