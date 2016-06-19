@@ -1,5 +1,5 @@
 # Flexi-Image-Gallery
-This gallery is used to align photos with different aspect ratios in a fluid way. It trys to keep the aspect ratio of the photos and reduce the crop as much as possible.
+This gallery is used to align photos with different aspect ratios in a fluid way. It tries to keep the aspect ratio of the photos and reduce the crop as much as possible.
 
 Download
 --------
