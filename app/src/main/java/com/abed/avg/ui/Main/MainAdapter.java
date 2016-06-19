@@ -66,13 +66,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
         photosGridProcessor.setAvgHeight(avg_height);
         photosGridProcessor.setGridWidth(grid_width);
         photosGridProcessor.setItemSpacing(item_spacing);
-        int[][] penaltyTable = photosGridProcessor.calculatePenaltyTable(photos);
-        List<Integer> indexes = photosGridProcessor.discoverLineBreaks(penaltyTable);
-        PhotosGridRow[] photos_rows = photosGridProcessor.getPhotosGridRows(photos, indexes);
-        photosGridProcessor.adjustImagesSize(photos_rows);
-        this.photos_rows = photos_rows;
-
-
+        this.photos_rows = photosGridProcessor.process(photos);
         notifyDataSetChanged();
     }
 

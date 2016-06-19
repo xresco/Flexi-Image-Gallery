@@ -45,6 +45,15 @@ public class PhotosGridProcessor {
         this.item_spacing = item_spacing;
     }
 
+
+    public PhotosGridRow[] process(List<Photo> photos) {
+        int[][] penaltyTable = calculatePenaltyTable(photos);
+        List<Integer> indexes = discoverLineBreaks(penaltyTable);
+        PhotosGridRow[] photos_rows = getPhotosGridRows(photos, indexes);
+        adjustImagesSize(photos_rows);
+        return photos_rows;
+    }
+
     /**
      * Scales evey image inside the rows to fill the height of the row and calculate the
      * corresponding width accordingly while keeping the aspect ratio.
@@ -53,7 +62,7 @@ public class PhotosGridProcessor {
      *
      * @param photos_rows
      */
-    public void adjustImagesSize(PhotosGridRow[] photos_rows) {
+    private void adjustImagesSize(PhotosGridRow[] photos_rows) {
         for (PhotosGridRow photos_row : photos_rows) {
             int width_sum = 0;
             for (Photo photo : photos_row.photos) {
@@ -90,7 +99,7 @@ public class PhotosGridProcessor {
      *
      * @param photos
      */
-    public int[][] calculatePenaltyTable(List<Photo> photos) {
+    private int[][] calculatePenaltyTable(List<Photo> photos) {
 
         int[][] penaltyTable = new int[photos.size()][photos.size()];
         int max_s = 0;
@@ -116,7 +125,7 @@ public class PhotosGridProcessor {
      * @param penaltyTable
      * @return
      */
-    public List<Integer> discoverLineBreaks(int[][] penaltyTable) {
+    private List<Integer> discoverLineBreaks(int[][] penaltyTable) {
         List<Integer> indecies = new LinkedList<>();
         for (int i = 0; i < penaltyTable.length; i++) {
             for (int s = 1; s < penaltyTable.length - 1; s++) {
@@ -139,7 +148,7 @@ public class PhotosGridProcessor {
      * @param photo
      * @return
      */
-    public int getImageWidth(int new_height, Photo photo) {
+    private int getImageWidth(int new_height, Photo photo) {
         return (int) (photo.getWidthN() * (new_height / (float) photo.getHeightN()));
     }
 
@@ -153,7 +162,7 @@ public class PhotosGridProcessor {
      * @param photos
      * @return
      */
-    public int calculatePenalty(int i, int s, List<Photo> photos) {
+    private int calculatePenalty(int i, int s, List<Photo> photos) {
         int sum_width = 0;
         for (int index = i; index < i + s; index++) {
             sum_width += getImageWidth(avg_height, photos.get(index));
@@ -170,7 +179,7 @@ public class PhotosGridProcessor {
      * @param indexes
      * @return
      */
-    public PhotosGridRow[] getPhotosGridRows(List<Photo> photos, List<Integer> indexes) {
+    private PhotosGridRow[] getPhotosGridRows(List<Photo> photos, List<Integer> indexes) {
         int row_index = 0;
         PhotosGridRow[] photos_rows = new PhotosGridRow[indexes.size() + 1];
         for (int i = 0; i < photos.size(); i++) {
