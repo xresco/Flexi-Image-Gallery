@@ -10,9 +10,6 @@ Download via Gradle:
 allprojects {
     repositories {
        jcenter()
-       maven {
-            url 'https://dl.bintray.com/xresco/maven/'
-        }
     }
 }
 ```
