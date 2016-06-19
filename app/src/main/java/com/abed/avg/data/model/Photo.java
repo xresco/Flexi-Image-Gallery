@@ -1,6 +1,8 @@
 
 package com.abed.avg.data.model;
 
+import com.abed.flexiimagegallery.data.GalleryPhoto;
+
 public class Photo {
 
     private String farm;
@@ -109,5 +111,11 @@ public class Photo {
 
     public void setHeightN(int height_n) {
         this.height_n = String.valueOf(height_n);
+    }
+
+
+    public GalleryPhoto convertToGalleryPhoto() {
+        GalleryPhoto galleryPhoto = new GalleryPhoto(getUrlN(), getWidthN(), getHeightN());
+        return galleryPhoto;
     }
 }

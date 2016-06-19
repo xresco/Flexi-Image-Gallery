@@ -7,8 +7,12 @@
     android:orientation="vertical"
     tools:context="com.abed.avg.ui.Main.MainActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recylcer_imgs"
+    <com.abed.flexiimagegallery.ui.view.FlexiGallery
+        android:id="@+id/flexi_gallery"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:gallery_items_vertical_spacing="10dp"
+        app:gallery_items_horizontal_spacing="10dp"
+        app:gallery_average_row_height="400dp"/>
 </LinearLayout>

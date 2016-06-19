@@ -1,4 +1,4 @@
-package com.abed.avg.data.model;
+package com.abed.flexiimagegallery.data;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
 
 public class PhotosGridRow {
 
-    public List<Photo> photos;
+    public List<GalleryPhoto> photos;
     public int starting_number;
 
     public PhotosGridRow(int starting_number) {
@@ -17,11 +17,11 @@ public class PhotosGridRow {
         photos = new LinkedList<>();
     }
 
-    public void add(Photo photo) {
+    public void add(GalleryPhoto photo) {
         photos.add(photo);
     }
 
-    public Photo get(int index) {
+    public GalleryPhoto get(int index) {
         return photos.get(index);
     }
 

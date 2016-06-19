@@ -1,0 +1,65 @@
+apply plugin: 'com.android.library'
+
+
+def packageName = 'com.abed.android'
+def library_version = '1.0.0'
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'flexi-image-gallery'
+
+    publishedGroupId = packageName
+    libraryName = 'flexiimagegallery'
+    artifact = 'flexiimagegallery'
+
+    libraryDescription = 'This gallery is used to align photos with different aspect ratios in a fluid way. It trys to keep the aspect ratio of the photo and reduce the crop as much as possible.'
+
+    siteUrl = 'https://github.com/xresco/Flexi-Image-Gallery'
+    gitUrl = 'https://github.com/xresco/Flexi-Image-Gallery.git'
+
+    libraryVersion = library_version
+
+    developerId = 'xresco'
+    developerName = 'Abed Almoradi'
+    developerEmail = 'abd.almoradi@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile "com.android.support:recyclerview-v7:23.4.0"
+    testCompile 'junit:junit:4.12'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support:support-annotations:23.4.0'
+}
+
+
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'

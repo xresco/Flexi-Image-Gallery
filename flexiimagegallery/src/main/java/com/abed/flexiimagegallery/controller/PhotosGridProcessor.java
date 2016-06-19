@@ -1,13 +1,12 @@
-package com.abed.avg.controller;
+package com.abed.flexiimagegallery.controller;
 
-import com.abed.avg.data.model.Photo;
-import com.abed.avg.data.model.PhotosGridRow;
-import com.abed.avg.ui.Main.MainAdapter;
+
+import com.abed.flexiimagegallery.data.GalleryPhoto;
+import com.abed.flexiimagegallery.data.PhotosGridRow;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.inject.Inject;
 
 /**
  * Created by Abed on 19/06/2016.
@@ -28,7 +27,6 @@ public class PhotosGridProcessor {
     private int item_spacing;
 
 
-    @Inject
     public PhotosGridProcessor() {
     }
 
@@ -46,7 +44,7 @@ public class PhotosGridProcessor {
     }
 
 
-    public PhotosGridRow[] process(List<Photo> photos) {
+    public PhotosGridRow[] process(List<GalleryPhoto> photos) {
         int[][] penaltyTable = calculatePenaltyTable(photos);
         List<Integer> indexes = discoverLineBreaks(penaltyTable);
         PhotosGridRow[] photos_rows = getPhotosGridRows(photos, indexes);
@@ -65,21 +63,21 @@ public class PhotosGridProcessor {
     private void adjustImagesSize(PhotosGridRow[] photos_rows) {
         for (PhotosGridRow photos_row : photos_rows) {
             int width_sum = 0;
-            for (Photo photo : photos_row.photos) {
+            for (GalleryPhoto photo : photos_row.photos) {
                 width_sum += getImageWidth(avg_height, photo);
             }
             float scaling_factor = grid_width / (float) width_sum;
             width_sum = 0;
-            for (Photo photo : photos_row.photos) {
-                photo.setWidthN(getImageWidth((int) (scaling_factor * avg_height), photo));
-                photo.setHeightN((int) (avg_height * scaling_factor));
-                width_sum += photo.getWidthN();
+            for (GalleryPhoto photo : photos_row.photos) {
+                photo.setWidth(getImageWidth((int) (scaling_factor * avg_height), photo));
+                photo.setHeight((int) (avg_height * scaling_factor));
+                width_sum += photo.getWidth();
             }
 
             // Adjust the last photo in the row in case the sum of the widths of the photos
             // isn't equal to the grid_width
-            Photo last_photo_in_row = photos_row.get(photos_row.size() - 1);
-            last_photo_in_row.setWidthN(last_photo_in_row.getWidthN() + grid_width - width_sum);
+            GalleryPhoto last_photo_in_row = photos_row.get(photos_row.size() - 1);
+            last_photo_in_row.setWidth(last_photo_in_row.getWidth() + grid_width - width_sum);
         }
 
     }
@@ -99,7 +97,7 @@ public class PhotosGridProcessor {
      *
      * @param photos
      */
-    private int[][] calculatePenaltyTable(List<Photo> photos) {
+    private int[][] calculatePenaltyTable(List<GalleryPhoto> photos) {
 
         int[][] penaltyTable = new int[photos.size()][photos.size()];
         int max_s = 0;
@@ -148,8 +146,8 @@ public class PhotosGridProcessor {
      * @param photo
      * @return
      */
-    private int getImageWidth(int new_height, Photo photo) {
-        return (int) (photo.getWidthN() * (new_height / (float) photo.getHeightN()));
+    private int getImageWidth(int new_height, GalleryPhoto photo) {
+        return (int) (photo.getWidth() * (new_height / (float) photo.getHeight()));
     }
 
 
@@ -162,7 +160,7 @@ public class PhotosGridProcessor {
      * @param photos
      * @return
      */
-    private int calculatePenalty(int i, int s, List<Photo> photos) {
+    private int calculatePenalty(int i, int s, List<GalleryPhoto> photos) {
         int sum_width = 0;
         for (int index = i; index < i + s; index++) {
             sum_width += getImageWidth(avg_height, photos.get(index));
@@ -179,7 +177,7 @@ public class PhotosGridProcessor {
      * @param indexes
      * @return
      */
-    private PhotosGridRow[] getPhotosGridRows(List<Photo> photos, List<Integer> indexes) {
+    private PhotosGridRow[] getPhotosGridRows(List<GalleryPhoto> photos, List<Integer> indexes) {
         int row_index = 0;
         PhotosGridRow[] photos_rows = new PhotosGridRow[indexes.size() + 1];
         for (int i = 0; i < photos.size(); i++) {
