@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.abed.avg.R;
+import com.abed.avg.controller.util.ViewUtil;
 import com.abed.avg.data.model.Photo;
 import com.abed.avg.ui.base.BaseActivity;
 
@@ -66,6 +67,6 @@ public class MainActivity extends BaseActivity implements MainMvpView {
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
-        mainAdapter.updateList(photos, width, width / 2);
+        mainAdapter.updateList(photos, width, width, ViewUtil.dpToPx(5));
     }
 }
